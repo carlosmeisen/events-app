@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import model.LanguagePreference
+import preference.AppPreferencesKeys // Ensure AppPreferencesKeys is imported
 import preference.AppPreferencesKeys.DEFAULT_LANGUAGE_CODE
 import preference.UserPreferenceRepositoryImpl.PreferencesKeys.LANGUAGE_CODE_KEY
 import java.io.IOException
@@ -17,7 +18,8 @@ class UserPreferenceRepositoryImpl(
 ) : UserPreferenceRepository {
 
     private object PreferencesKeys {
-        val LANGUAGE_CODE_KEY = stringPreferencesKey("language_code")
+        // Updated to use the constant from AppPreferencesKeys
+        val LANGUAGE_CODE_KEY = stringPreferencesKey(AppPreferencesKeys.KEY_LANGUAGE_CODE)
     }
 
     override fun getLanguagePreference(): Flow<LanguagePreference> {

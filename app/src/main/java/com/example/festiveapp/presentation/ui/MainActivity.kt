@@ -32,6 +32,8 @@ import orchestrator.NavigationOrchestrator
 import org.koin.android.ext.android.getKoin
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.ext.android.inject
+import com.example.festiveapp.preferences.getSelectedLanguage
+import kotlinx.coroutines.runBlocking
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.scope.activityRetainedScope
@@ -69,6 +71,12 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Retrieve and apply saved language code before setContent
+        val savedLanguageCode = runBlocking { getSelectedLanguage(this@MainActivity.getApplicationContext()) }
+        if (!savedLanguageCode.isNullOrEmpty()) {
+            updateLocale(savedLanguageCode, this@MainActivity.getApplicationContext())
+        }
 
         // Initial locale setup could be considered here if a synchronous way to get
         // the preference on app start was available. DataStore is async, so dynamic
