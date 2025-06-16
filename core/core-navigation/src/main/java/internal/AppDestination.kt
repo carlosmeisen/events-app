@@ -17,6 +17,7 @@ sealed class AppDestination(
     data object Settings : AppDestination(route = "settings_route")
     data object Calendar : AppDestination(route = "calendar_route")
     data object Favorites : AppDestination(route = "favorites_route")
+    data object Login : AppDestination(route = "login_route")
 
     // Example of a destination with a required argument
     data class EventDetail(val eventId: String = "{eventId}") :

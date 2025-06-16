@@ -91,8 +91,10 @@ class SettingsViewModel(
     }
 
     fun onLoginClicked() {
-        //appNavigator.navigate(NavigationCommand.To(AppDestination.Home))
-        logger.logDebug("Login clicked", tag = TAG)
+        viewModelScope.launch {
+            navigationChannel.trySend(NavigationCommand.To(AppDestination.Login))
+            logger.logDebug("Login clicked, navigating to Login screen.", tag = TAG)
+        }
     }
 
     fun onAccountInfoClicked() {

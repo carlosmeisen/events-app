@@ -5,6 +5,7 @@ import com.example.di.infrastructureModule
 import com.example.festiveapp.di.appDataStoreModule
 import com.example.festiveapp.di.appModule
 import di.dataModule
+import com.example.feature_login.di.featureLoginModule
 import di.domainUseCaseModule
 import di.featureHomeModule
 import di.featureSettingsModule
@@ -49,6 +50,7 @@ class MyApp : Application() {
                     domainUseCaseModule,
                     featureSettingsModule,
                     featureHomeModule,
+                    featureLoginModule,
                     // Add other Koin modules from your other feature/domain modules here as your app grows
                 )
             }
