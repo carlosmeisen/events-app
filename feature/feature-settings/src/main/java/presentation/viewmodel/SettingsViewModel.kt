@@ -21,7 +21,8 @@ data class SettingsUiState(
     val isUserLoggedIn: Boolean = false,
     val userName: String? = null,
     val userEmail: String? = null,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val showLogoutConfirmationDialog: Boolean = false
 )
 
 class SettingsViewModel(
@@ -74,7 +75,15 @@ class SettingsViewModel(
         logger.logDebug("ViewModel cleared.", tag = TAG)
     }
 
-    fun onLogoutClicked() {
+    fun onLogoutConfirmationRequested() {
+        _settingsState.update { it.copy(showLogoutConfirmationDialog = true) }
+    }
+
+    fun onLogoutDialogDismissed() {
+        _settingsState.update { it.copy(showLogoutConfirmationDialog = false) }
+    }
+
+    fun onLogoutConfirmed() {
         viewModelScope.launch {
             try {
                 val logoutResult = logoutUserUseCase()
@@ -86,13 +95,15 @@ class SettingsViewModel(
                             userEmail = null
                         )
                     }
-                    //navigationChannel.trySend(NavigationCommand.To(AppDestination.Home))
                     logger.logDebug("Logout successful", tag = TAG)
+                    navigationChannel.trySend(NavigationCommand.To(AppDestination.Home))
                 } else {
                     logger.logError("Logout failed: ${logoutResult.exceptionOrNull()?.message}", tag = TAG)
                 }
             } catch (e: Exception) {
                 logger.logError("Logout failed: ${e.message}", tag = TAG)
+            } finally {
+                _settingsState.update { it.copy(showLogoutConfirmationDialog = false) }
             }
         }
     }
