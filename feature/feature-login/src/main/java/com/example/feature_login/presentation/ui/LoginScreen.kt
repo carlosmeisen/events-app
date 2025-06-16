@@ -10,8 +10,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.feature_login.R
 import com.example.feature_login.presentation.viewmodel.LoginViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -34,7 +36,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Login",
+                text = stringResource(id = R.string.login_button_text), // Assuming "Login" title also uses this
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 32.dp)
             )
@@ -42,7 +44,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
             OutlinedTextField(
                 value = username,
                 onValueChange = { loginViewModel.onUsernameChange(it) },
-                label = { Text("Username") },
+                label = { Text(stringResource(id = R.string.login_username_label)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
@@ -53,7 +55,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
             OutlinedTextField(
                 value = password,
                 onValueChange = { loginViewModel.onPasswordChange(it) },
-                label = { Text("Password") },
+                label = { Text(stringResource(id = R.string.login_password_label)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
@@ -69,11 +71,11 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                     .padding(bottom = 16.dp),
                 enabled = !isLoading
             ) {
-                Text("Login")
+                Text(stringResource(id = R.string.login_button_text))
             }
 
             Text(
-                text = "Or connect with",
+                text = stringResource(id = R.string.login_or_connect_with_text),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -91,7 +93,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                     modifier = Modifier.size(ButtonDefaults.IconSize)
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("Log in with Facebook")
+                Text(stringResource(id = R.string.login_facebook_button_text))
             }
 
             Button(
@@ -107,7 +109,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                     modifier = Modifier.size(ButtonDefaults.IconSize)
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("Log in with Google")
+                Text(stringResource(id = R.string.login_google_button_text))
             }
 
             // Box to hold either ProgressIndicator or LoginMessage, ensuring consistent space
@@ -121,10 +123,15 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                 if (isLoading) {
                     CircularProgressIndicator()
                 } else {
-                    loginMessage?.let {
+                    loginMessage?.let { message ->
+                        val displayMessage = when (message) {
+                            "Login Successful!" -> stringResource(id = R.string.login_success_message)
+                            "Error: Invalid username or password." -> stringResource(id = R.string.login_error_invalid_credentials)
+                            else -> message // Or use R.string.login_generic_error_message for unknown errors
+                        }
                         Text(
-                            text = it,
-                            color = if (it.startsWith("Error:")) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                            text = displayMessage,
+                            color = if (message.startsWith("Error:")) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }

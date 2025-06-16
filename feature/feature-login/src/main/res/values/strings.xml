@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_username_label">Username</string>
+    <string name="login_password_label">Password</string>
+    <string name="login_button_text">Login</string>
+    <string name="login_facebook_button_text">Log in with Facebook</string>
+    <string name="login_google_button_text">Log in with Google</string>
+    <string name="login_or_connect_with_text">Or connect with</string>
+    <string name="login_success_message">Login Successful!</string>
+    <string name="login_error_invalid_credentials">Error: Invalid username or password.</string>
+    <string name="login_generic_error_message">An unexpected error occurred.</string>
+</resources>
