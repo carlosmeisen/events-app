@@ -39,7 +39,8 @@ import androidx.compose.ui.res.stringResource // Added
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.app.R // Changed from com.example.core.ui.R
+import com.example.core.ui.R as CoreUiR // Alias to avoid conflict if feature_settings.R is also named R
+import com.example.feature_settings.R // Import for local feature R class
 import org.koin.androidx.compose.koinViewModel
 import preference.AppTheme
 import presentation.model.ButtonSettingsItem
@@ -126,7 +127,7 @@ fun SettingsContent(
         add(
             ToggleSettingsItem(
                 title = stringResource(id = R.string.settings_dark_mode_title),
-                customIconResId = R.drawable.dark_mode_ic, // Assuming this is a valid drawable
+                customIconResId = CoreUiR.drawable.dark_mode_ic, // Use alias for core R
                 isChecked = themeState.themeMode == UiThemeMode.DARK,
                 onCheckedChanged = onDarkModeChange
             )
