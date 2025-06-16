@@ -1,4 +1,4 @@
-package di
+package com.example.domain.domain_usecase.di
 
 import org.koin.dsl.module
 import theme.GetThemePreferenceUseCase
@@ -16,6 +16,3 @@ val domainUseCaseModule = module {
     factory<GetUserInfoUseCase> { GetUserInfoUseCaseImpl(userRepository = get()) }
     factory<LogoutUserUseCase> { LogoutUserUseCaseImpl(userRepository = get()) }
 }
-
-
-
