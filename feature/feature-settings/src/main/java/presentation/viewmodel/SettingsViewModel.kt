@@ -6,8 +6,11 @@ import androidx.lifecycle.viewModelScope
 import internal.AppDestination
 import internal.NavigationCommand
 import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -31,6 +34,10 @@ class SettingsViewModel(
     private val TAG = "SettingsViewModel"
     private val _settingsState = MutableStateFlow(SettingsUiState())
     val settingsState: StateFlow<SettingsUiState> = _settingsState.asStateFlow()
+
+    // For signaling navigation to LanguageSelectionScreen
+    private val _navigateToLanguageSelection = MutableSharedFlow<Unit>()
+    val navigateToLanguageSelection: SharedFlow<Unit> = _navigateToLanguageSelection.asSharedFlow()
 
     init {
         logger.logDebug("ViewModel initialized. Instance: $this", tag = TAG)
@@ -101,5 +108,16 @@ class SettingsViewModel(
         navigationChannel.trySend(NavigationCommand.To(AppDestination.Home))
         //appNavigator.navigate(NavigationCommand.To(AppDestination.Home))
         logger.logDebug("Account info clicked", tag = TAG)
+    }
+
+    fun onLanguageSettingsClicked() {
+        viewModelScope.launch {
+            // Instead of direct navigation, emit an event for the UI to observe
+            _navigateToLanguageSelection.emit(Unit)
+            logger.logDebug("Language settings clicked, attempting to navigate.", tag = TAG)
+            // The old navigationChannel call can be removed or kept if it serves another purpose
+            // For this specific navigation, the SharedFlow is preferred to decouple ViewModel from NavController.
+            // navigationChannel.trySend(NavigationCommand.To(AppDestination.LanguageSelection))
+        }
     }
 }

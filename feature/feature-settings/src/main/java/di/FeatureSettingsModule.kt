@@ -1,9 +1,12 @@
 package di
 
+import language.GetLanguagePreferenceUseCase
+import language.SaveLanguagePreferenceUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import presentation.viewmodel.AppThemeViewModel
+import presentation.viewmodel.LanguageViewModel
 import presentation.viewmodel.SettingsViewModel
 
 val featureSettingsModule: Module = module {
@@ -24,4 +27,9 @@ val featureSettingsModule: Module = module {
             logger = get()
         )
     }
+
+    // New additions for Language
+    factory { GetLanguagePreferenceUseCase(get()) } // Depends on UserPreferenceRepository
+    factory { SaveLanguagePreferenceUseCase(get()) } // Depends on UserPreferenceRepository
+    viewModel { LanguageViewModel(get(), get(), get()) } // Depends on UseCases and Logger
 }

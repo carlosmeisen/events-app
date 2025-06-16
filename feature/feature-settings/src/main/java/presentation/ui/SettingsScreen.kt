@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Language // Added
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -31,8 +32,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+
+import androidx.compose.ui.res.stringResource // Added
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,16 +53,26 @@ import presentation.viewmodel.SettingsViewModel
 import androidx.compose.runtime.getValue
 import presentation.viewmodel.AppThemeState
 import presentation.viewmodel.AppThemeViewModel
+import presentation.viewmodel.LanguageState
+import presentation.viewmodel.LanguageViewModel
 
 @Composable
 fun SettingsScreen(
     settingsViewModel: SettingsViewModel = koinViewModel(),
-    appThemeViewModel: AppThemeViewModel = koinViewModel()
+    appThemeViewModel: AppThemeViewModel = koinViewModel(),
+    languageViewModel: LanguageViewModel = koinViewModel(), // Added LanguageViewModel
+    onNavigateToLanguageSelection: () -> Unit // Added callback for navigation
 ) {
     val themeState by appThemeViewModel.themeState.collectAsState()
     val settingsState by settingsViewModel.settingsState.collectAsState()
+    val languageState by languageViewModel.languageState.collectAsState() // Collect language state
 
-    if (settingsState.isLoading) {
+    // Observe navigation trigger from SettingsViewModel
+    // This will be handled by MainActivity or NavHost Composable as per refined plan.
+    // For now, we pass the onNavigateToLanguageSelection lambda which is triggered by settingsViewModel.onLanguageSettingsClicked
+    // And settingsViewModel.onLanguageSettingsClicked will be modified to call this lambda.
+
+    if (settingsState.isLoading || languageState.isLoading) { // Consider languageState loading
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
@@ -69,10 +82,12 @@ fun SettingsScreen(
     SettingsContent(
         uiState = settingsState,
         themeState = themeState,
+        languageState = languageState, // Pass languageState
         onDarkModeChange = appThemeViewModel::onDarkModeChanged,
         onLogout = settingsViewModel::onLogoutClicked,
         onLogin = settingsViewModel::onLoginClicked,
-        onAccountInfoClick = settingsViewModel::onAccountInfoClicked
+        onAccountInfoClick = settingsViewModel::onAccountInfoClicked,
+        onLanguageSettingsClicked = onNavigateToLanguageSelection // Use the passed lambda
     )
 }
 
@@ -80,11 +95,19 @@ fun SettingsScreen(
 fun SettingsContent(
     uiState: SettingsUiState,
     themeState: AppThemeState,
+    languageState: LanguageState, // Added languageState
     onDarkModeChange: (Boolean) -> Unit,
     onLogout: () -> Unit,
     onLogin: () -> Unit,
-    onAccountInfoClick: () -> Unit
+    onAccountInfoClick: () -> Unit,
+    onLanguageSettingsClicked: () -> Unit
 ) {
+    val currentLanguageDisplay = when (languageState.currentLanguageCode) {
+        "en" -> stringResource(id = R.string.settings_language_english)
+        "pt-BR" -> stringResource(id = R.string.settings_language_brazilian_portuguese)
+        else -> languageState.currentLanguageCode // Fallback
+    }
+
     val settingsItems = mutableListOf<SettingsItem>().apply {
         // Account Section
         add(SettingsHeader(stringResource(id = R.string.settings_header_account)))
@@ -109,6 +132,15 @@ fun SettingsContent(
                 onCheckedChanged = onDarkModeChange
             )
         )
+        add(
+            ClickableSettingsItem(
+                title = stringResource(id = R.string.settings_language_title),
+                description = currentLanguageDisplay, // Use dynamic language display
+                icon = Icons.Filled.Language,
+                onClick = onLanguageSettingsClicked,
+                modifier = Modifier.testTag("languageSettingItem") // Added testTag
+            )
+        )
 
         // Actions Section
         add(SettingsHeader(stringResource(id = R.string.settings_header_actions)))
@@ -124,7 +156,7 @@ fun SettingsContent(
         } else {
             add(
                 ButtonSettingsItem(
-                    title = stringResource(id = R.string.settings_login_button_title), // Corrected to title
+                    title = stringResource(id = R.string.settings_login_button_title),
                     icon = Icons.Filled.Person,
                     onClick = onLogin
                 )
@@ -164,7 +196,7 @@ fun SettingsSectionHeader(title: String) {
 @Composable
 fun ClickableRow(item: ClickableSettingsItem) {
     Surface( // Use Surface for ripple effect on click
-        modifier = Modifier
+        modifier = (item.modifier ?: Modifier) // Apply item's modifier if present
             .fillMaxWidth()
             .clickable(onClick = item.onClick)
             .padding(horizontal = 16.dp, vertical = 12.dp)
@@ -185,10 +217,16 @@ fun ClickableRow(item: ClickableSettingsItem) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = item.title, style = MaterialTheme.typography.bodyLarge)
                 item.description?.let {
+                    val descriptionModifier = if (item.title == stringResource(id = R.string.settings_language_title)) {
+                        Modifier.testTag("currentLanguageText")
+                    } else {
+                        Modifier
+                    }
                     Text(
                         text = it,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.outline
+                        color = MaterialTheme.colorScheme.outline,
+                        modifier = descriptionModifier // Added testTag for language description
                     )
                 }
             }
@@ -305,7 +343,8 @@ private fun SettingsContentLoggedInPreview() {
             onDarkModeChange = {},
             onLogout = {},
             onLogin = {},
-            onAccountInfoClick = {}
+            onAccountInfoClick = {},
+            onLanguageSettingsClicked = {}
         )
     }
 }
@@ -322,10 +361,12 @@ private fun SettingsContentLoggedOutPreview() {
             themeState = AppThemeState(
                 themeMode = UiThemeMode.LIGHT
             ),
+            languageState = LanguageState(), // Added default state
             onDarkModeChange = {},
             onLogout = {},
             onLogin = {},
-            onAccountInfoClick = {}
+            onAccountInfoClick = {},
+            onLanguageSettingsClicked = {}
         )
     }
 }

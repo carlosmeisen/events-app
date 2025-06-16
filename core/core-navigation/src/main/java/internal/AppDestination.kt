@@ -15,6 +15,7 @@ sealed class AppDestination(
     // Top-level destinations without arguments
     data object Home : AppDestination(route = "home_route")
     data object Settings : AppDestination(route = "settings_route")
+    data object LanguageSelection : AppDestination(route = "language_selection_route") // New route
     data object Calendar : AppDestination(route = "calendar_route")
     data object Favorites : AppDestination(route = "favorites_route")
     data object Login : AppDestination(route = "login_route")
