@@ -6,7 +6,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.feature_home.R
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
@@ -16,7 +18,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     ) {
         Text(
             modifier = Modifier,
-            text = "Home Screen",
+            text = stringResource(id = R.string.home_screen_title),
             style = MaterialTheme.typography.bodyMedium
         )
     }
