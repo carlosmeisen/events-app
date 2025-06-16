@@ -7,7 +7,8 @@ object DestinationRegistry {
         AppDestination.Home.route,
         AppDestination.Settings.route,
         AppDestination.Calendar.route,
-        AppDestination.Favorites.route
+        AppDestination.Favorites.route,
+        AppDestination.Login.route
     )
 
     private val routePatterns = listOf(

@@ -46,7 +46,8 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
-                singleLine = true
+                singleLine = true,
+                enabled = !isLoading
             )
 
             OutlinedTextField(
@@ -57,7 +58,8 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
                 visualTransformation = PasswordVisualTransformation(),
-                singleLine = true
+                singleLine = true,
+                enabled = !isLoading
             )
 
             Button(
@@ -108,17 +110,25 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                 Text("Log in with Google")
             }
 
-            loginMessage?.let {
-                Text(
-                    text = it,
-                    color = if (it.startsWith("Error:")) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 16.dp)
-                )
-            }
-
-            if (isLoading) {
-                CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
+            // Box to hold either ProgressIndicator or LoginMessage, ensuring consistent space
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+                    .defaultMinSize(minHeight = 48.dp), // Adjust minHeight as needed for your text/indicator size
+                contentAlignment = Alignment.Center
+            ) {
+                if (isLoading) {
+                    CircularProgressIndicator()
+                } else {
+                    loginMessage?.let {
+                        Text(
+                            text = it,
+                            color = if (it.startsWith("Error:")) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
             }
         }
     }
