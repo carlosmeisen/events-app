@@ -204,9 +204,17 @@ fun ClickableRow(item: ClickableSettingsItem) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            item.icon?.let {
+            if (item.icon != null) {
                 Icon(
-                    imageVector = it,
+                    imageVector = item.icon,
+                    contentDescription = item.title,
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+            } else if (item.customIconResId != null) {
+                Icon(
+                    painter = painterResource(id = item.customIconResId),
                     contentDescription = item.title,
                     modifier = Modifier.size(24.dp),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant

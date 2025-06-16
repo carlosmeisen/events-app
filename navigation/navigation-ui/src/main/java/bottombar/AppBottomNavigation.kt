@@ -13,8 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.navigation_ui.R
 import internal.AppDestination
 import internal.NavigationCommand
 import kotlinx.coroutines.channels.SendChannel
@@ -51,8 +53,13 @@ fun AppBottomNavigation(
 
     NavigationBar(modifier = modifier) {
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-            label = { Text("Home") },
+            icon = {
+                Icon(
+                    Icons.Default.Home,
+                    contentDescription = stringResource(id = R.string.navigation_home)
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.navigation_home)) },
             selected = currentRoute == AppDestination.Home.route,
             onClick = {
                 navigationChannel.trySend(
@@ -66,8 +73,13 @@ fun AppBottomNavigation(
         )
 
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
-            label = { Text("Settings") },
+            icon = {
+                Icon(
+                    Icons.Default.Settings,
+                    contentDescription = stringResource(id = R.string.navigation_settings)
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.navigation_settings)) },
             selected = currentRoute == AppDestination.Settings.route,
             enabled = canNavigateToSettings,
             onClick = {
@@ -84,8 +96,13 @@ fun AppBottomNavigation(
         )
 
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Star, contentDescription = "Favorites") },
-            label = { Text("Favorites") },
+            icon = {
+                Icon(
+                    Icons.Default.Star,
+                    contentDescription = stringResource(id = R.string.navigation_favorites)
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.navigation_favorites)) },
             selected = currentRoute == AppDestination.Favorites.route,
             enabled = canNavigateToFavorites,
             onClick = {
@@ -102,8 +119,13 @@ fun AppBottomNavigation(
         )
 
         NavigationBarItem(
-            icon = { Icon(Icons.Default.DateRange, contentDescription = "Events") },
-            label = { Text("Events") },
+            icon = {
+                Icon(
+                    Icons.Default.DateRange,
+                    contentDescription = stringResource(id = R.string.navigation_events)
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.navigation_events)) },
             selected = currentRoute == AppDestination.Calendar.route,
             enabled = canNavigateToFavorites,
             onClick = {
