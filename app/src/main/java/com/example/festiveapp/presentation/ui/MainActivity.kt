@@ -21,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import bottombar.AppBottomNavigation
+import com.example.feature_login.presentation.ui.LoginScreen
 import internal.AppDestination
 import internal.NavigationCommand
 import kotlinx.coroutines.channels.SendChannel
@@ -95,6 +96,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
                                 composable(route = AppDestination.Calendar.route) { CalendarScreen() }
                                 composable(route = AppDestination.Settings.route) { SettingsScreen() }
                                 composable(route = AppDestination.Favorites.route) { FavoritesScreen() }
+                                composable(route = AppDestination.Login.route) { LoginScreen() }
                             }
                         }
                     }

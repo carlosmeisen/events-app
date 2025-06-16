@@ -39,6 +39,7 @@ include(":feature")
 include(":feature:feature-home")
 include(":feature:feature-calendar")
 include(":feature:feature-settings")
+include(":feature:feature-login")
 include(":feature:feature-favorites")
 
 //Navigation Modules
