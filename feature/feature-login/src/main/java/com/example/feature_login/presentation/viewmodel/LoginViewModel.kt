@@ -37,7 +37,7 @@ class LoginViewModel : ViewModel() {
             _loginResultMessage.value = null
             delay(1000) // Simulate network request
 
-            if (username.value == "testuser" && password.value == "password123") {
+            if (username.value == "a" && password.value == "a") {
                 _loginResultMessage.value = "Login Successful!"
             } else {
                 _loginResultMessage.value = "Error: Invalid username or password."
