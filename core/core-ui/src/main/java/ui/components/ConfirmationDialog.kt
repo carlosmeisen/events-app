@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import preference.AppTheme
 
 @Composable
 fun ConfirmationDialog(
@@ -15,10 +16,10 @@ fun ConfirmationDialog(
     denyButtonText: String,
     onConfirm: () -> Unit,
     onDeny: () -> Unit,
-    dismissable: Boolean = true,
+    dismissible: Boolean = true,
     onDismissRequest: () -> Unit
 ) {
-    if (dismissable) {
+    if (dismissible) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
             title = { Text(text = title) },
@@ -69,30 +70,34 @@ fun ConfirmationDialog(
 
 @Preview(name = "Dismissable Dialog")
 @Composable
-fun ConfirmationDialogPreviewDismissable() {
-    ConfirmationDialog(
-        title = "Confirm Action",
-        message = "Are you sure you want to perform this action? This can be dismissed.",
-        confirmButtonText = "Confirm",
-        denyButtonText = "Deny",
-        onConfirm = {},
-        onDeny = {},
-        dismissable = true,
-        onDismissRequest = {}
-    )
+fun ConfirmationDialogPreviewDismissible() {
+    AppTheme {
+        ConfirmationDialog(
+            title = "Confirm Action",
+            message = "Are you sure you want to perform this action? This can be dismissed.",
+            confirmButtonText = "Confirm",
+            denyButtonText = "Deny",
+            onConfirm = {},
+            onDeny = {},
+            dismissible = true,
+            onDismissRequest = {}
+        )
+    }
 }
 
 @Preview(name = "Non-Dismissable Dialog")
 @Composable
-fun ConfirmationDialogPreviewNonDismissable() {
-    ConfirmationDialog(
-        title = "Important Choice",
-        message = "This is a critical decision. You must choose an option. This dialog cannot be dismissed by clicking outside.",
-        confirmButtonText = "Accept",
-        denyButtonText = "Reject",
-        onConfirm = {},
-        onDeny = {},
-        dismissable = false,
-        onDismissRequest = {} // This won't be called by AlertDialog if dismissable is false
-    )
+fun ConfirmationDialogPreviewNonDismissible() {
+    AppTheme {
+        ConfirmationDialog(
+            title = "Important Choice",
+            message = "This is a critical decision. You must choose an option. This dialog cannot be dismissed by clicking outside.",
+            confirmButtonText = "Accept",
+            denyButtonText = "Reject",
+            onConfirm = {},
+            onDeny = {},
+            dismissible = false,
+            onDismissRequest = {} // This won't be called by AlertDialog if dismissable is false
+        )
+    }
 }
