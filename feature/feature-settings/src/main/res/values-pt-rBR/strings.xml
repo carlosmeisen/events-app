@@ -13,4 +13,9 @@
     <string name="settings_login_button_title">Entrar</string>
     <string name="settings_language_description">Selecione seu idioma</string>
     <string name="settings_account_information_fallback">Informações da Conta</string>
+
+    <string name="settings_language_change_dialog_title">Mudar idioma?</string>
+    <string name="settings_language_change_dialog_message">Tem certeza que deseja mudar o idioma?</string>
+    <string name="settings_language_change_dialog_confirm_button">Confirmar</string>
+    <string name="settings_language_change_dialog_deny_button">Cancelar</string>
 </resources>

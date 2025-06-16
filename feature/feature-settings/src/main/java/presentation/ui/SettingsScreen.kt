@@ -29,6 +29,10 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -38,7 +42,6 @@ import androidx.compose.ui.res.stringResource // Added
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.core.ui.R as CoreUiR // Alias to avoid conflict if feature_settings.R is also named R
 import com.example.feature_settings.R // Import for local feature R class
 import org.koin.androidx.compose.koinViewModel
 import preference.AppTheme
@@ -54,6 +57,7 @@ import presentation.viewmodel.AppThemeState
 import presentation.viewmodel.AppThemeViewModel
 import presentation.viewmodel.LanguageState
 import presentation.viewmodel.LanguageViewModel
+import ui.components.ConfirmationDialog
 
 @Composable
 fun SettingsScreen(
@@ -65,6 +69,7 @@ fun SettingsScreen(
     val themeState by appThemeViewModel.themeState.collectAsState()
     val settingsState by settingsViewModel.settingsState.collectAsState()
     val languageState by languageViewModel.languageState.collectAsState() // Collect language state
+    var showLanguageDialog by remember { mutableStateOf(false) }
 
     // Observe navigation trigger from SettingsViewModel
     // This will be handled by MainActivity or NavHost Composable as per refined plan.
@@ -86,8 +91,28 @@ fun SettingsScreen(
         onLogout = settingsViewModel::onLogoutClicked,
         onLogin = settingsViewModel::onLoginClicked,
         onAccountInfoClick = settingsViewModel::onAccountInfoClicked,
-        onLanguageSettingsClicked = onNavigateToLanguageSelection // Use the passed lambda
+        // onLanguageSettingsClicked = onNavigateToLanguageSelection // Use the passed lambda
+        onLanguageSettingsClicked = { showLanguageDialog = true } // Show dialog on click
     )
+
+    if (showLanguageDialog) {
+        ConfirmationDialog(
+            title = stringResource(id = R.string.settings_language_change_dialog_title),
+            message = stringResource(id = R.string.settings_language_change_dialog_message),
+            confirmButtonText = stringResource(id = R.string.settings_language_change_dialog_confirm_button),
+            denyButtonText = stringResource(id = R.string.settings_language_change_dialog_deny_button),
+            onConfirm = {
+                showLanguageDialog = false
+                // TODO: The actual selected language code should be passed here.
+                // Using a placeholder "en" as the screen currently doesn't have a language selection mechanism
+                // before showing this confirmation dialog. This is a temporary measure.
+                settingsViewModel.confirmLanguageChange("en")
+            },
+            onDeny = { showLanguageDialog = false },
+            dismissible = true,
+            onDismissRequest = { showLanguageDialog = false }
+        )
+    }
 }
 
 @Composable
@@ -103,7 +128,8 @@ fun SettingsContent(
 ) {
     val currentLanguageDisplay = when (languageState.currentLanguageCode) {
         "en" -> stringResource(id = R.string.settings_language_english)
-        "pt-BR" -> stringResource(id = R.string.settings_language_brazilian_portuguese)
+        // TODO: Replace R.string.settings_language_brazilian_portuguese with actual resource from a common module if available
+        "pt-BR" -> "Brazilian Portuguese" // Placeholder if R.string.settings_language_brazilian_portuguese is not found
         else -> languageState.currentLanguageCode // Fallback
     }
 
