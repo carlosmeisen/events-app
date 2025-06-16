@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.feature_calendar.R
+import com.example.feature.calendar.R
 
 @Composable
 fun CalendarScreen(modifier: Modifier = Modifier) {

@@ -87,6 +87,7 @@ dependencies {
 
     // Compose BOM - CRITICAL: This manages all Compose library versions
     implementation(platform(libs.androidx.compose.bom))  // Add platform() wrapper
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.bundles.compose.base)
     debugImplementation(libs.bundles.compose.debug)
 

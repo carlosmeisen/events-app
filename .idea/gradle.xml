@@ -34,6 +34,7 @@
             <option value="$PROJECT_DIR$/feature/feature-calendar" />
             <option value="$PROJECT_DIR$/feature/feature-favorites" />
             <option value="$PROJECT_DIR$/feature/feature-home" />
+            <option value="$PROJECT_DIR$/feature/feature-login" />
             <option value="$PROJECT_DIR$/feature/feature-settings" />
             <option value="$PROJECT_DIR$/infrastructure" />
             <option value="$PROJECT_DIR$/mapper" />

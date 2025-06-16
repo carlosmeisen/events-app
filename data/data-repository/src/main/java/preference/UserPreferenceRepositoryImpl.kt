@@ -9,16 +9,12 @@ import kotlinx.coroutines.flow.map
 import model.LanguagePreference
 import repository.UserPreferenceRepository // Domain repository interface
 
-// Note: The DataStore instance (provideThemeDataStore) is not directly used here.
-// It will be injected into this class via DI.
-
 class UserPreferenceRepositoryImpl(
-    private val dataStore: DataStore<Preferences> // Injected DataStore
+    private val dataStore: DataStore<Preferences> 
 ) : UserPreferenceRepository {
 
     private object PreferencesKeys {
         val LANGUAGE_CODE = stringPreferencesKey("language_code")
-        // Add other general user preference keys here if any in the future
     }
 
     override fun getLanguagePreference(): Flow<LanguagePreference> {

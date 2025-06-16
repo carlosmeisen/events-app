@@ -11,6 +11,7 @@ sealed interface SettingsItem {
 data class ClickableSettingsItem(
     override val title: String,
     override val icon: ImageVector? = null,
+    @DrawableRes val customIconResId: Int? = null, // For custom painterResource
     val description: String? = null,
     val onClick: () -> Unit,
     val modifier: androidx.compose.ui.Modifier = androidx.compose.ui.Modifier // Added modifier

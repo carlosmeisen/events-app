@@ -6,7 +6,7 @@ import com.example.festiveapp.di.appDataStoreModule
 import com.example.festiveapp.di.appModule
 import di.dataModule
 import com.example.feature_login.di.featureLoginModule
-import com.example.domain.domain_usecase.di.domainUseCaseModule // Updated import
+import di.domainUseCaseModule // Updated import
 import di.featureHomeModule
 import di.featureSettingsModule
 import di.loggingModule

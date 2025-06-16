@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Language // Added
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -127,7 +126,7 @@ fun SettingsContent(
         add(
             ToggleSettingsItem(
                 title = stringResource(id = R.string.settings_dark_mode_title),
-                customIconResId = CoreUiR.drawable.dark_mode_ic, // Use alias for core R
+                customIconResId = R.drawable.dark_mode_ic,
                 isChecked = themeState.themeMode == UiThemeMode.DARK,
                 onCheckedChanged = onDarkModeChange
             )
@@ -136,7 +135,7 @@ fun SettingsContent(
             ClickableSettingsItem(
                 title = stringResource(id = R.string.settings_language_title),
                 description = currentLanguageDisplay, // Use dynamic language display
-                icon = Icons.Filled.Language,
+                customIconResId = R.drawable.language_ic,
                 onClick = onLanguageSettingsClicked,
                 modifier = Modifier.testTag("languageSettingItem") // Added testTag
             )
@@ -340,6 +339,7 @@ private fun SettingsContentLoggedInPreview() {
             themeState = AppThemeState(
                 themeMode = UiThemeMode.DARK
             ),
+            languageState = LanguageState(),
             onDarkModeChange = {},
             onLogout = {},
             onLogin = {},

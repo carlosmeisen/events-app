@@ -1,5 +1,7 @@
-package com.example.domain.domain_usecase.di
+package di
 
+import language.GetLanguagePreferenceUseCase
+import language.SaveLanguagePreferenceUseCase
 import org.koin.dsl.module
 import theme.GetThemePreferenceUseCase
 import theme.GetThemePreferenceUseCaseImpl
@@ -15,4 +17,6 @@ val domainUseCaseModule = module {
     factory<SaveThemePreferenceUseCase> { SaveThemePreferenceUseCaseImpl(themePreferenceRepository = get()) }
     factory<GetUserInfoUseCase> { GetUserInfoUseCaseImpl(userRepository = get()) }
     factory<LogoutUserUseCase> { LogoutUserUseCaseImpl(userRepository = get()) }
+    factory { GetLanguagePreferenceUseCase(userPreferenceRepository = get()) }
+    factory { SaveLanguagePreferenceUseCase(userPreferenceRepository = get()) }
 }

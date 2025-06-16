@@ -29,7 +29,9 @@ val featureSettingsModule: Module = module {
     }
 
     // New additions for Language
-    factory { GetLanguagePreferenceUseCase(get()) } // Depends on UserPreferenceRepository
-    factory { SaveLanguagePreferenceUseCase(get()) } // Depends on UserPreferenceRepository
-    viewModel { LanguageViewModel(get(), get(), get()) } // Depends on UseCases and Logger
+    viewModel { LanguageViewModel(
+        getLanguagePreferenceUseCase = get(),
+        saveLanguagePreferenceUseCase = get(),
+        logger = get()
+    ) }
 }
