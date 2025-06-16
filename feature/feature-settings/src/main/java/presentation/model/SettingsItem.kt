@@ -12,7 +12,8 @@ data class ClickableSettingsItem(
     override val title: String,
     override val icon: ImageVector? = null,
     val description: String? = null,
-    val onClick: () -> Unit
+    val onClick: () -> Unit,
+    val modifier: androidx.compose.ui.Modifier = androidx.compose.ui.Modifier // Added modifier
 ) : SettingsItem
 
 data class ToggleSettingsItem(

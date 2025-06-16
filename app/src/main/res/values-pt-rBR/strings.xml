@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Aplicativo Festivo</string> <!-- Translation for "FestiveApp" -->
+    <string name="settings_language_selection_title">Selecionar Idioma</string>
+    <string name="settings_language_english">Inglês</string>
+    <string name="settings_language_brazilian_portuguese">Português (Brasil)</string>
+    <string name="settings_content_description_back">Voltar</string>
+    <string name="settings_language_title">Idioma</string>
+    <string name="settings_header_account">Conta</string>
+    <string name="settings_header_appearance">Aparência</string>
+    <string name="settings_header_actions">Ações</string>
+    <string name="settings_dark_mode_title">Modo Escuro</string>
+    <string name="settings_logout_button_title">Sair</string>
+    <string name="settings_login_button_title">Entrar</string>
+    <string name="settings_language_description">Selecione seu idioma</string>
+    <string name="settings_account_information_fallback">Informações da Conta</string>
+</resources>
