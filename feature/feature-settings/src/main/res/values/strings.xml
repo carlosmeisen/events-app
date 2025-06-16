@@ -13,7 +13,10 @@
     <string name="settings_login_button_title">Login</string> <!-- Adhering to the list, replacing settings_login_button_text -->
     <string name="settings_language_description">Select your language</string>
     <string name="settings_account_information_fallback">Account Information</string>
-
+    <string name="settings_language_change_dialog_title">Change language?</string>
+    <string name="settings_language_change_dialog_message">Are you sure you want to change the language?</string>
+    <string name="settings_language_change_dialog_confirm_button">Confirm</string>
+    <string name="settings_language_change_dialog_deny_button">Cancel</string>
     <string name="settings_logout_dialog_title">Confirm Logout</string>
     <string name="settings_logout_dialog_message">Are you sure you want to log out?</string>
     <string name="settings_logout_dialog_confirm_button">Logout</string>

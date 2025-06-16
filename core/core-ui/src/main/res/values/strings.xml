@@ -1,0 +1,4 @@
+<resources>
+    <string name="core_ui_confirm">Confirm</string>
+    <string name="core_ui_cancel">Cancel</string>
+</resources>

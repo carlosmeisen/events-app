@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import language.SaveLanguagePreferenceUseCase
+import model.LanguagePreference
 import user.GetUserInfoUseCase
 import user.LogoutUserUseCase
 
@@ -28,6 +30,7 @@ data class SettingsUiState(
 class SettingsViewModel(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val logoutUserUseCase: LogoutUserUseCase,
+    private val saveLanguagePreferenceUseCase: SaveLanguagePreferenceUseCase, // Added
     private val navigationChannel: SendChannel<NavigationCommand>,
     private val logger: GenericLogger
 ) : ViewModel() {
@@ -129,6 +132,21 @@ class SettingsViewModel(
             // The old navigationChannel call can be removed or kept if it serves another purpose
             // For this specific navigation, the SharedFlow is preferred to decouple ViewModel from NavController.
             // navigationChannel.trySend(NavigationCommand.To(AppDestination.LanguageSelection))
+        }
+    }
+
+    fun confirmLanguageChange(languageCode: String) {
+        viewModelScope.launch {
+            logger.logDebug("confirmLanguageChange called with languageCode: $languageCode", tag = TAG)
+            val result = saveLanguagePreferenceUseCase(LanguagePreference(languageCode))
+
+            if (result.isSuccess) {
+                logger.logDebug("Language preference updated to $languageCode, navigating to Home.", tag = TAG)
+                navigationChannel.trySend(NavigationCommand.To(AppDestination.Home))
+            } else {
+                logger.logError("Failed to update language preference to $languageCode: ${result.exceptionOrNull()?.message}", tag = TAG)
+                // Optionally, communicate this error to the UI, e.g., via a SharedFlow<String> for error messages
+            }
         }
     }
 }
