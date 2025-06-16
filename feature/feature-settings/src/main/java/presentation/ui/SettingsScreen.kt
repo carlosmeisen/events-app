@@ -33,7 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
-
+import ui.components.ConfirmationDialog // Added import
 import androidx.compose.ui.res.stringResource // Added
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -83,10 +83,12 @@ fun SettingsScreen(
         themeState = themeState,
         languageState = languageState, // Pass languageState
         onDarkModeChange = appThemeViewModel::onDarkModeChanged,
-        onLogout = settingsViewModel::onLogoutClicked,
         onLogin = settingsViewModel::onLoginClicked,
         onAccountInfoClick = settingsViewModel::onAccountInfoClicked,
-        onLanguageSettingsClicked = onNavigateToLanguageSelection // Use the passed lambda
+        onLanguageSettingsClicked = onNavigateToLanguageSelection, // Use the passed lambda
+        onLogoutRequested = settingsViewModel::onLogoutConfirmationRequested,
+        onLogoutConfirmed = settingsViewModel::onLogoutConfirmed,
+        onLogoutDialogDismissed = settingsViewModel::onLogoutDialogDismissed
     )
 }
 
@@ -96,10 +98,12 @@ fun SettingsContent(
     themeState: AppThemeState,
     languageState: LanguageState, // Added languageState
     onDarkModeChange: (Boolean) -> Unit,
-    onLogout: () -> Unit,
     onLogin: () -> Unit,
     onAccountInfoClick: () -> Unit,
-    onLanguageSettingsClicked: () -> Unit
+    onLanguageSettingsClicked: () -> Unit,
+    onLogoutRequested: () -> Unit,
+    onLogoutConfirmed: () -> Unit,
+    onLogoutDialogDismissed: () -> Unit
 ) {
     val currentLanguageDisplay = when (languageState.currentLanguageCode) {
         "en" -> stringResource(id = R.string.settings_language_english)
@@ -149,7 +153,7 @@ fun SettingsContent(
                     title = stringResource(id = R.string.settings_logout_button_title),
                     icon = Icons.AutoMirrored.Filled.ExitToApp,
                     isDestructive = true,
-                    onClick = onLogout
+                    onClick = onLogoutRequested // Changed to request confirmation
                 )
             )
         } else {
@@ -176,6 +180,19 @@ fun SettingsContent(
                 is ButtonSettingsItem -> ButtonRow(item = item)
             }
         }
+    }
+
+    if (uiState.showLogoutConfirmationDialog) {
+        ui.components.ConfirmationDialog(
+            title = stringResource(id = R.string.settings_logout_dialog_title),
+            message = stringResource(id = R.string.settings_logout_dialog_message),
+            confirmButtonText = stringResource(id = R.string.settings_logout_dialog_confirm_button),
+            denyButtonText = stringResource(id = R.string.settings_logout_dialog_deny_button),
+            onConfirm = onLogoutConfirmed,
+            onDeny = onLogoutDialogDismissed,
+            dismissible = true,
+            onDismissRequest = onLogoutDialogDismissed
+        )
     }
 }
 
@@ -349,10 +366,12 @@ private fun SettingsContentLoggedInPreview() {
             ),
             languageState = LanguageState(),
             onDarkModeChange = {},
-            onLogout = {},
             onLogin = {},
             onAccountInfoClick = {},
-            onLanguageSettingsClicked = {}
+            onLanguageSettingsClicked = {},
+            onLogoutRequested = {},
+            onLogoutConfirmed = {},
+            onLogoutDialogDismissed = {}
         )
     }
 }
@@ -371,10 +390,12 @@ private fun SettingsContentLoggedOutPreview() {
             ),
             languageState = LanguageState(), // Added default state
             onDarkModeChange = {},
-            onLogout = {},
             onLogin = {},
             onAccountInfoClick = {},
-            onLanguageSettingsClicked = {}
+            onLanguageSettingsClicked = {},
+            onLogoutRequested = {},
+            onLogoutConfirmed = {},
+            onLogoutDialogDismissed = {}
         )
     }
 }
