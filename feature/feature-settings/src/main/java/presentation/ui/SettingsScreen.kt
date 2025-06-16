@@ -32,10 +32,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.core.ui.R
+import com.example.core.ui.R // This is for the R.drawable.dark_mode_ic
+// For R.string.settings_login_button_text, we'll need the feature-settings R file
+// It will be com.example.feature_settings.R, but we don't explicitly import it if using stringResource correctly
 import org.koin.androidx.compose.koinViewModel
 import preference.AppTheme
 import presentation.model.ButtonSettingsItem
@@ -122,7 +125,7 @@ fun SettingsContent(
         } else {
             add(
                 ButtonSettingsItem(
-                    title = "Login",
+                    title = stringResource(id = com.example.feature_settings.R.string.settings_login_button_text),
                     icon = Icons.Filled.Person,
                     onClick = onLogin
                 )
