@@ -17,4 +17,8 @@
     <string name="settings_language_change_dialog_message">Are you sure you want to change the language?</string>
     <string name="settings_language_change_dialog_confirm_button">Confirm</string>
     <string name="settings_language_change_dialog_deny_button">Cancel</string>
+    <string name="settings_logout_dialog_title">Confirm Logout</string>
+    <string name="settings_logout_dialog_message">Are you sure you want to log out?</string>
+    <string name="settings_logout_dialog_confirm_button">Logout</string>
+    <string name="settings_logout_dialog_deny_button">Cancel</string>
 </resources>
