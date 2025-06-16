@@ -123,6 +123,7 @@ dependencies {
     implementation(project(":feature:feature-settings"))
     implementation(project(":feature:feature-calendar"))
     implementation(project(":feature:feature-favorites"))
+    implementation(project(":feature:feature-login"))
 
     // Koin
     implementation(libs.koin.android)
