@@ -36,9 +36,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.core.ui.R // This is for the R.drawable.dark_mode_ic
-// For R.string.settings_login_button_text, we'll need the feature-settings R file
-// It will be com.example.feature_settings.R, but we don't explicitly import it if using stringResource correctly
+import com.example.core.ui.R as CoreUiR // Alias to avoid conflict if feature_settings.R is also named R
+import com.example.feature_settings.R // Import for local feature R class
 import org.koin.androidx.compose.koinViewModel
 import preference.AppTheme
 import presentation.model.ButtonSettingsItem
@@ -88,11 +87,11 @@ fun SettingsContent(
 ) {
     val settingsItems = mutableListOf<SettingsItem>().apply {
         // Account Section
-        add(SettingsHeader("Account"))
+        add(SettingsHeader(stringResource(id = R.string.settings_header_account)))
         if (uiState.isUserLoggedIn) {
             add(
                 ClickableSettingsItem(
-                    title = uiState.userName ?: "Account Information",
+                    title = uiState.userName ?: stringResource(id = R.string.settings_account_information_fallback),
                     description = uiState.userEmail,
                     icon = Icons.Filled.AccountCircle,
                     onClick = onAccountInfoClick
@@ -101,22 +100,22 @@ fun SettingsContent(
         }
 
         // Appearance Section
-        add(SettingsHeader("Appearance"))
+        add(SettingsHeader(stringResource(id = R.string.settings_header_appearance)))
         add(
             ToggleSettingsItem(
-                title = "Dark Mode",
-                customIconResId = R.drawable.dark_mode_ic,
+                title = stringResource(id = R.string.settings_dark_mode_title),
+                customIconResId = CoreUiR.drawable.dark_mode_ic, // Use alias for core R
                 isChecked = themeState.themeMode == UiThemeMode.DARK,
                 onCheckedChanged = onDarkModeChange
             )
         )
 
         // Actions Section
-        add(SettingsHeader("Actions"))
+        add(SettingsHeader(stringResource(id = R.string.settings_header_actions)))
         if (uiState.isUserLoggedIn) {
             add(
                 ButtonSettingsItem(
-                    title = "Logout",
+                    title = stringResource(id = R.string.settings_logout_button_title),
                     icon = Icons.AutoMirrored.Filled.ExitToApp,
                     isDestructive = true,
                     onClick = onLogout
@@ -125,7 +124,7 @@ fun SettingsContent(
         } else {
             add(
                 ButtonSettingsItem(
-                    title = stringResource(id = com.example.feature_settings.R.string.settings_login_button_text),
+                    title = stringResource(id = R.string.settings_login_button_title), // Corrected to title
                     icon = Icons.Filled.Person,
                     onClick = onLogin
                 )
