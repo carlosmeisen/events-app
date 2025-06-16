@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_home">Home</string>
+    <string name="navigation_home">Início</string>
     <string name="navigation_settings">Configurações</string>
     <string name="navigation_favorites">Favoritos</string>
     <string name="navigation_events">Eventos</string>

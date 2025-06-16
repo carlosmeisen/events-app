@@ -97,7 +97,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
                     if (currentSystemLocale.language != selectedLocale.language ||
                         currentSystemLocale.country != selectedLocale.country) {
                         updateLocale(languageState.currentLanguageCode, this@MainActivity)
-                        // Optional: recreate() // To force resource reloading if necessary
+                        this@MainActivity.recreate() // Force resource reloading
                     }
                 }
             }
