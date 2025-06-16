@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import language.SaveLanguagePreferenceUseCase
-import model.LanguagePreference
+import language.GetLanguagePreferenceUseCase
 import user.GetUserInfoUseCase
 import user.LogoutUserUseCase
 
@@ -24,13 +24,14 @@ data class SettingsUiState(
     val userName: String? = null,
     val userEmail: String? = null,
     val isLoading: Boolean = true,
+    val currentLanguageCode: String = "en",
     val showLogoutConfirmationDialog: Boolean = false
 )
 
 class SettingsViewModel(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val logoutUserUseCase: LogoutUserUseCase,
-    private val saveLanguagePreferenceUseCase: SaveLanguagePreferenceUseCase, // Added
+    private val getLanguagePreferenceUseCase: GetLanguagePreferenceUseCase,
     private val navigationChannel: SendChannel<NavigationCommand>,
     private val logger: GenericLogger
 ) : ViewModel() {
@@ -46,6 +47,21 @@ class SettingsViewModel(
     init {
         logger.logDebug("ViewModel initialized. Instance: $this", tag = TAG)
         loadInitialSettings()
+        observeLanguagePreference()
+    }
+
+    private fun observeLanguagePreference() {
+        viewModelScope.launch {
+            _settingsState.update { it.copy(isLoading = true) }
+            getLanguagePreferenceUseCase().collectLatest { preference ->
+                _settingsState.update { currentState ->
+                    currentState.copy(
+                        currentLanguageCode = preference.languageCode,
+                        isLoading = false
+                    )
+                }
+            }
+        }
     }
 
     private fun loadInitialSettings() {
@@ -120,33 +136,13 @@ class SettingsViewModel(
 
     fun onAccountInfoClicked() {
         navigationChannel.trySend(NavigationCommand.To(AppDestination.Home))
-        //appNavigator.navigate(NavigationCommand.To(AppDestination.Home))
         logger.logDebug("Account info clicked", tag = TAG)
     }
 
     fun onLanguageSettingsClicked() {
         viewModelScope.launch {
-            // Instead of direct navigation, emit an event for the UI to observe
             _navigateToLanguageSelection.emit(Unit)
             logger.logDebug("Language settings clicked, attempting to navigate.", tag = TAG)
-            // The old navigationChannel call can be removed or kept if it serves another purpose
-            // For this specific navigation, the SharedFlow is preferred to decouple ViewModel from NavController.
-            // navigationChannel.trySend(NavigationCommand.To(AppDestination.LanguageSelection))
-        }
-    }
-
-    fun confirmLanguageChange(languageCode: String) {
-        viewModelScope.launch {
-            logger.logDebug("confirmLanguageChange called with languageCode: $languageCode", tag = TAG)
-            val result = saveLanguagePreferenceUseCase(LanguagePreference(languageCode))
-
-            if (result.isSuccess) {
-                logger.logDebug("Language preference updated to $languageCode, navigating to Home.", tag = TAG)
-                navigationChannel.trySend(NavigationCommand.To(AppDestination.Home))
-            } else {
-                logger.logError("Failed to update language preference to $languageCode: ${result.exceptionOrNull()?.message}", tag = TAG)
-                // Optionally, communicate this error to the UI, e.g., via a SharedFlow<String> for error messages
-            }
         }
     }
 }

@@ -1,6 +1,6 @@
-package presentation.ui
+package presentation.model
 
-enum class UiThemeMode {
+enum class ThemeModeUIModel {
     LIGHT,
     DARK,
     SYSTEM_DEFAULT;

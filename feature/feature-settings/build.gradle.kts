@@ -60,6 +60,7 @@ dependencies {
     implementation(project(":domain:domain-usecase"))
     implementation(project(":domain:domain-model"))
     implementation(project(":core:core-ui"))
+    implementation(project(":core:core-common"))
     implementation(project(":core:core-navigation"))
     implementation(project(":core:core-logging"))
 

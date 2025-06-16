@@ -18,4 +18,9 @@
     <string name="settings_language_change_dialog_message">Tem certeza que deseja mudar o idioma?</string>
     <string name="settings_language_change_dialog_confirm_button">Confirmar</string>
     <string name="settings_language_change_dialog_deny_button">Cancelar</string>
+
+    <string name="settings_logout_dialog_title">Confirmar Saída</string>
+    <string name="settings_logout_dialog_message">Tem certeza que deseja sair?</string>
+    <string name="settings_logout_dialog_confirm_button">Sair</string>
+    <string name="settings_logout_dialog_deny_button">Cancelar</string>
 </resources>

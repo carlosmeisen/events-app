@@ -1,7 +1,14 @@
 package di
 
+import language.ApplyAppLanguageUseCase
+import language.ApplyAppLanguageUseCaseImpl
+import language.GetAvailableLanguagesUseCase
+import language.GetAvailableLanguagesUseCaseImpl
 import language.GetLanguagePreferenceUseCase
+import language.GetLanguagePreferenceUseCaseImpl
 import language.SaveLanguagePreferenceUseCase
+import language.SaveLanguagePreferenceUseCaseImpl
+import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 import theme.GetThemePreferenceUseCase
 import theme.GetThemePreferenceUseCaseImpl
@@ -17,6 +24,23 @@ val domainUseCaseModule = module {
     factory<SaveThemePreferenceUseCase> { SaveThemePreferenceUseCaseImpl(themePreferenceRepository = get()) }
     factory<GetUserInfoUseCase> { GetUserInfoUseCaseImpl(userRepository = get()) }
     factory<LogoutUserUseCase> { LogoutUserUseCaseImpl(userRepository = get()) }
-    factory { GetLanguagePreferenceUseCase(userPreferenceRepository = get()) }
-    factory { SaveLanguagePreferenceUseCase(userPreferenceRepository = get()) }
+    factory<GetLanguagePreferenceUseCase> {
+        GetLanguagePreferenceUseCaseImpl(
+            userPreferenceRepository = get()
+        )
+    }
+    factory<SaveLanguagePreferenceUseCase> {
+        SaveLanguagePreferenceUseCaseImpl(
+            userPreferenceRepository = get()
+        )
+    }
+    factory<GetAvailableLanguagesUseCase> {
+        GetAvailableLanguagesUseCaseImpl(
+            languageConfigRepository = get()
+        )
+    }
+
+    factory<ApplyAppLanguageUseCase> {
+        ApplyAppLanguageUseCaseImpl(applicationContext = androidApplication())
+    }
 }

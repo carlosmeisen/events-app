@@ -65,9 +65,6 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
         val config = Configuration(context.resources.configuration)
         config.setLocale(locale)
         context.resources.updateConfiguration(config, context.resources.displayMetrics)
-        // For older APIs, activity recreation might be needed via finish() + startActivity(intent)
-        // or just recreate() for API 11+ if issues persist.
-        // For now, relying on Compose recomposition and resource reloading.
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +94,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
                     if (currentSystemLocale.language != selectedLocale.language ||
                         currentSystemLocale.country != selectedLocale.country) {
                         updateLocale(languageState.currentLanguageCode, this@MainActivity)
-                        this@MainActivity.recreate() // Force resource reloading
+                        this@MainActivity.recreate()
                     }
                 }
             }

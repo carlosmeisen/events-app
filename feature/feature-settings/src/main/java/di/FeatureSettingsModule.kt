@@ -22,6 +22,7 @@ val featureSettingsModule: Module = module {
             getUserInfoUseCase = get(),
             logoutUserUseCase = get(),
             navigationChannel = get(),
+            getLanguagePreferenceUseCase = get(),
             logger = get()
         )
     }
@@ -30,6 +31,7 @@ val featureSettingsModule: Module = module {
     viewModel { LanguageViewModel(
         getLanguagePreferenceUseCase = get(),
         saveLanguagePreferenceUseCase = get(),
+        getAvailableLanguagesUseCase = get(),
         logger = get()
     ) }
 }

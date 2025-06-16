@@ -98,7 +98,6 @@ dependencies {
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-
     // DataStore
     implementation(libs.bundles.datastore)
 
@@ -108,6 +107,7 @@ dependencies {
     implementation(project(":core:core-navigation"))
     implementation(project(":core:core-ui"))
     implementation(project(":core:core-logging"))
+    implementation(project(":core:core-common"))
     implementation(project(":domain:domain-usecase"))
     implementation(project(":domain:domain-repository"))
     implementation(project(":domain:domain-model"))

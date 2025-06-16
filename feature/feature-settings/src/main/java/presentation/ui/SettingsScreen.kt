@@ -30,53 +30,39 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
-import ui.components.ConfirmationDialog // Added import
-import androidx.compose.ui.res.stringResource // Added
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.feature_settings.R // Import for local feature R class
+import com.example.feature_settings.R
 import org.koin.androidx.compose.koinViewModel
 import preference.AppTheme
-import presentation.model.ButtonSettingsItem
-import presentation.model.ClickableSettingsItem
-import presentation.model.SettingsHeader
-import presentation.model.SettingsItem
-import presentation.model.ToggleSettingsItem
-import presentation.viewmodel.SettingsUiState
-import presentation.viewmodel.SettingsViewModel
-import androidx.compose.runtime.getValue
+import presentation.model.ThemeModeUIModel
 import presentation.viewmodel.AppThemeState
 import presentation.viewmodel.AppThemeViewModel
-import presentation.viewmodel.LanguageState
-import presentation.viewmodel.LanguageViewModel
+import presentation.viewmodel.SettingsUiState
+import presentation.viewmodel.SettingsViewModel
 import ui.components.ConfirmationDialog
 
 @Composable
 fun SettingsScreen(
     settingsViewModel: SettingsViewModel = koinViewModel(),
     appThemeViewModel: AppThemeViewModel = koinViewModel(),
-    languageViewModel: LanguageViewModel = koinViewModel(), // Added LanguageViewModel
     onNavigateToLanguageSelection: () -> Unit // Added callback for navigation
 ) {
     val themeState by appThemeViewModel.themeState.collectAsState()
     val settingsState by settingsViewModel.settingsState.collectAsState()
-    val languageState by languageViewModel.languageState.collectAsState() // Collect language state
-    var showLanguageDialog by remember { mutableStateOf(false) }
 
     // Observe navigation trigger from SettingsViewModel
     // This will be handled by MainActivity or NavHost Composable as per refined plan.
     // For now, we pass the onNavigateToLanguageSelection lambda which is triggered by settingsViewModel.onLanguageSettingsClicked
     // And settingsViewModel.onLanguageSettingsClicked will be modified to call this lambda.
 
-    if (settingsState.isLoading || languageState.isLoading) { // Consider languageState loading
+    if (settingsState.isLoading ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
@@ -86,41 +72,20 @@ fun SettingsScreen(
     SettingsContent(
         uiState = settingsState,
         themeState = themeState,
-        languageState = languageState, // Pass languageState
         onDarkModeChange = appThemeViewModel::onDarkModeChanged,
         onLogin = settingsViewModel::onLoginClicked,
         onAccountInfoClick = settingsViewModel::onAccountInfoClicked,
-        onLanguageSettingsClicked = { showLanguageDialog = true },
+        onLanguageSettingsClicked = onNavigateToLanguageSelection,
         onLogoutRequested = settingsViewModel::onLogoutConfirmationRequested,
         onLogoutConfirmed = settingsViewModel::onLogoutConfirmed,
         onLogoutDialogDismissed = settingsViewModel::onLogoutDialogDismissed
     )
-
-    if (showLanguageDialog) {
-        ConfirmationDialog(
-            title = stringResource(id = R.string.settings_language_change_dialog_title),
-            message = stringResource(id = R.string.settings_language_change_dialog_message),
-            confirmButtonText = stringResource(id = R.string.settings_language_change_dialog_confirm_button),
-            denyButtonText = stringResource(id = R.string.settings_language_change_dialog_deny_button),
-            onConfirm = {
-                showLanguageDialog = false
-                // TODO: The actual selected language code should be passed here.
-                // Using a placeholder "en" as the screen currently doesn't have a language selection mechanism
-                // before showing this confirmation dialog. This is a temporary measure.
-                settingsViewModel.confirmLanguageChange("en")
-            },
-            onDeny = { showLanguageDialog = false },
-            dismissible = true,
-            onDismissRequest = { showLanguageDialog = false }
-        )
-    }
 }
 
 @Composable
 fun SettingsContent(
     uiState: SettingsUiState,
     themeState: AppThemeState,
-    languageState: LanguageState, // Added languageState
     onDarkModeChange: (Boolean) -> Unit,
     onLogin: () -> Unit,
     onAccountInfoClick: () -> Unit,
@@ -129,11 +94,10 @@ fun SettingsContent(
     onLogoutConfirmed: () -> Unit,
     onLogoutDialogDismissed: () -> Unit
 ) {
-    val currentLanguageDisplay = when (languageState.currentLanguageCode) {
-        "en" -> stringResource(id = R.string.settings_language_english)
-        // TODO: Replace R.string.settings_language_brazilian_portuguese with actual resource from a common module if available
-        "pt-BR" -> "Brazilian Portuguese" // Placeholder if R.string.settings_language_brazilian_portuguese is not found
-        else -> languageState.currentLanguageCode // Fallback
+    val currentLanguageDisplay = when (uiState.currentLanguageCode) {
+        "en-US" -> stringResource(id = R.string.settings_language_english)
+        "pt-BR" -> stringResource(id = R.string.settings_language_brazilian_portuguese)
+        else -> uiState.currentLanguageCode
     }
 
     val settingsItems = mutableListOf<SettingsItem>().apply {
@@ -156,7 +120,7 @@ fun SettingsContent(
             ToggleSettingsItem(
                 title = stringResource(id = R.string.settings_dark_mode_title),
                 customIconResId = R.drawable.dark_mode_ic,
-                isChecked = themeState.themeMode == UiThemeMode.DARK,
+                isChecked = themeState.themeMode == ThemeModeUIModel.DARK,
                 onCheckedChanged = onDarkModeChange
             )
         )
@@ -208,7 +172,7 @@ fun SettingsContent(
     }
 
     if (uiState.showLogoutConfirmationDialog) {
-        ui.components.ConfirmationDialog(
+        ConfirmationDialog(
             title = stringResource(id = R.string.settings_logout_dialog_title),
             message = stringResource(id = R.string.settings_logout_dialog_message),
             confirmButtonText = stringResource(id = R.string.settings_logout_dialog_confirm_button),
@@ -387,16 +351,15 @@ private fun SettingsContentLoggedInPreview() {
                 userEmail = "carlsmeisen@hotmail.com",
             ),
             themeState = AppThemeState(
-                themeMode = UiThemeMode.DARK
+                themeMode = ThemeModeUIModel.DARK
             ),
-            languageState = LanguageState(),
             onDarkModeChange = {},
             onLogin = {},
             onAccountInfoClick = {},
             onLanguageSettingsClicked = {},
             onLogoutRequested = {},
             onLogoutConfirmed = {},
-            onLogoutDialogDismissed = {}
+            onLogoutDialogDismissed = {},
         )
     }
 }
@@ -411,9 +374,8 @@ private fun SettingsContentLoggedOutPreview() {
                 isUserLoggedIn = false
             ),
             themeState = AppThemeState(
-                themeMode = UiThemeMode.LIGHT
+                themeMode = ThemeModeUIModel.LIGHT
             ),
-            languageState = LanguageState(), // Added default state
             onDarkModeChange = {},
             onLogin = {},
             onAccountInfoClick = {},

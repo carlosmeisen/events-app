@@ -23,6 +23,7 @@ android {
 dependencies {
     // Dependency on the domain module for the repository interface
     implementation(project(path = ":domain:domain-repository"))
+    implementation(project(path = ":core:core-common"))
     implementation(project(path = ":domain:domain-model"))
 
     // Dependency on the data-local module for the data store implementation

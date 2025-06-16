@@ -1,6 +1,7 @@
-package presentation.model
+package presentation.ui
 
 import androidx.annotation.DrawableRes
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed interface SettingsItem {
@@ -14,7 +15,7 @@ data class ClickableSettingsItem(
     @DrawableRes val customIconResId: Int? = null, // For custom painterResource
     val description: String? = null,
     val onClick: () -> Unit,
-    val modifier: androidx.compose.ui.Modifier = androidx.compose.ui.Modifier // Added modifier
+    val modifier: Modifier = Modifier // Added modifier
 ) : SettingsItem
 
 data class ToggleSettingsItem(

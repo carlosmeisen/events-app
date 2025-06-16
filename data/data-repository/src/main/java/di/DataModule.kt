@@ -3,12 +3,14 @@ package di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import datastore.provideThemeDataStore
+import language.LanguageConfigRepository
+import language.LanguageConfigRepositoryImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 // Domain Repository Interfaces
 import preference.ThemePreferenceRepository
-import repository.UserPreferenceRepository
+import preference.UserPreferenceRepository
 import user.UserRepository
 
 // Implementation Classes from this Data Layer
@@ -34,5 +36,9 @@ val dataModule = module {
 
     single<UserRepository> {
         UserRepositoryImpl()
+    }
+
+    single<LanguageConfigRepository> {
+        LanguageConfigRepositoryImpl()
     }
 }

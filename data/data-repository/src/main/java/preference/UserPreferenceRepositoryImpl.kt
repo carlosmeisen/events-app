@@ -5,34 +5,41 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import model.LanguagePreference
-import repository.UserPreferenceRepository // Domain repository interface
+import preference.AppPreferencesKeys.DEFAULT_LANGUAGE_CODE
+import preference.UserPreferenceRepositoryImpl.PreferencesKeys.LANGUAGE_CODE_KEY
+import java.io.IOException
 
 class UserPreferenceRepositoryImpl(
-    private val dataStore: DataStore<Preferences> 
+    private val dataStore: DataStore<Preferences>
 ) : UserPreferenceRepository {
 
     private object PreferencesKeys {
-        val LANGUAGE_CODE = stringPreferencesKey("language_code")
+        val LANGUAGE_CODE_KEY = stringPreferencesKey("language_code")
     }
 
     override fun getLanguagePreference(): Flow<LanguagePreference> {
-        return dataStore.data.map { preferences ->
-            // Default to "en" if no language code is stored
-            val languageCode = preferences[PreferencesKeys.LANGUAGE_CODE] ?: "en"
-            LanguagePreference(languageCode)
-        }
+        return dataStore.data
+            .catch { exception ->
+                // dataStore.data throws an IOException when an error is encountered when reading data
+                if (exception is IOException) {
+                    // Log error, potentially emit a default
+                    emit(androidx.datastore.preferences.core.emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { preferences ->
+                val languageCode = preferences[LANGUAGE_CODE_KEY] ?: DEFAULT_LANGUAGE_CODE
+                LanguagePreference(languageCode)
+            }
     }
 
     override suspend fun saveLanguagePreference(preference: LanguagePreference) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKeys.LANGUAGE_CODE] = preference.languageCode
+            preferences[LANGUAGE_CODE_KEY] = preference.languageCode
         }
     }
-
-    // If UserPreferenceRepository had other methods (e.g., for theme),
-    // they would be implemented here, potentially sharing the same DataStore
-    // or delegating to other specific preference stores if needed.
-    // For now, it only has language methods as per the previous subtask.
 }

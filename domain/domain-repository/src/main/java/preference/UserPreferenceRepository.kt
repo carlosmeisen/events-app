@@ -1,4 +1,4 @@
-package repository
+package preference
 
 import kotlinx.coroutines.flow.Flow
 import model.LanguagePreference

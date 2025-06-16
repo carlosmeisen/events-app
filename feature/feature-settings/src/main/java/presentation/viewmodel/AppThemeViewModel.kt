@@ -11,20 +11,20 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import mapper.theme.toDomainThemeMode
 import mapper.theme.toUiThemeMode
-import presentation.ui.UiThemeMode
+import presentation.model.ThemeModeUIModel
 import theme.GetThemePreferenceUseCase
 import theme.SaveThemePreferenceUseCase
 
 data class AppThemeState(
-    val themeMode: UiThemeMode = UiThemeMode.SYSTEM_DEFAULT,
+    val themeMode: ThemeModeUIModel = ThemeModeUIModel.SYSTEM_DEFAULT,
     val isLoading: Boolean = false,
     val error: String? = null
 ) {
     val isSystemDefault: Boolean
-        get() = themeMode == UiThemeMode.SYSTEM_DEFAULT
+        get() = themeMode == ThemeModeUIModel.SYSTEM_DEFAULT
 
     val shouldUseDarkTheme: Boolean
-        get() = themeMode == UiThemeMode.DARK
+        get() = themeMode == ThemeModeUIModel.DARK
 }
 
 class AppThemeViewModel(
@@ -50,7 +50,7 @@ class AppThemeViewModel(
         }
     }
 
-    fun updateThemePreference(themeMode: UiThemeMode) {
+    fun updateThemePreference(themeMode: ThemeModeUIModel) {
         viewModelScope.launch {
             _themeState.update { it.copy(isLoading = true, error = null) }
 
@@ -72,7 +72,7 @@ class AppThemeViewModel(
     }
 
     fun onDarkModeChanged(isDark: Boolean) {
-        val newThemeMode = if (isDark) UiThemeMode.DARK else UiThemeMode.LIGHT
+        val newThemeMode = if (isDark) ThemeModeUIModel.DARK else ThemeModeUIModel.LIGHT
         updateThemePreference(newThemeMode)
     }
 }
