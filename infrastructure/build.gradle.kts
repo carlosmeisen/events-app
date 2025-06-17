@@ -25,7 +25,7 @@ dependencies {
     implementation(project(path = ":core:core-navigation"))
     implementation(project(path = ":core:core-ui"))
     implementation(project(path = ":domain:domain-usecase"))
-    implementation(project(path = ":domain:domain-model"))
+    implementation(project(":domain:domain-models"))
     implementation(project(path = ":mapper"))
 
     // AndroidX Core for ContextCompat (needed for startActivity)

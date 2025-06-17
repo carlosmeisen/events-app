@@ -23,6 +23,6 @@ android {
 dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(project(":domain:domain-repository"))
-    implementation(project(":domain:domain-model"))
+    implementation(project(":domain:domain-models"))
     implementation(project(":core:core-ui"))
 }

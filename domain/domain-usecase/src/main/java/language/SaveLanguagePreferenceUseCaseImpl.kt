@@ -1,14 +1,14 @@
 package language
 
 import model.LanguagePreference
-import preference.UserPreferenceRepository
+import preference.UserPreferencesRepository
 
 class SaveLanguagePreferenceUseCaseImpl(
-    private val userPreferenceRepository: UserPreferenceRepository
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : SaveLanguagePreferenceUseCase {
     override suspend operator fun invoke(preference: LanguagePreference): Result<Unit> {
         return try {
-            userPreferenceRepository.saveLanguagePreference(preference)
+            userPreferencesRepository.saveLanguagePreference(preference)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

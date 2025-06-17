@@ -27,20 +27,22 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/domain-analytics" />
             <option value="$PROJECT_DIR$/domain/domain-logger" />
-            <option value="$PROJECT_DIR$/domain/domain-model" />
+            <option value="$PROJECT_DIR$/domain/domain-models" />
             <option value="$PROJECT_DIR$/domain/domain-repository" />
+            <option value="$PROJECT_DIR$/domain/domain-services" />
             <option value="$PROJECT_DIR$/domain/domain-usecase" />
-            <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/feature-calendar" />
-            <option value="$PROJECT_DIR$/feature/feature-favorites" />
-            <option value="$PROJECT_DIR$/feature/feature-home" />
-            <option value="$PROJECT_DIR$/feature/feature-login" />
-            <option value="$PROJECT_DIR$/feature/feature-settings" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/feature-calendar" />
+            <option value="$PROJECT_DIR$/features/feature-favorites" />
+            <option value="$PROJECT_DIR$/features/feature-home" />
+            <option value="$PROJECT_DIR$/features/feature-login" />
+            <option value="$PROJECT_DIR$/features/feature-settings" />
             <option value="$PROJECT_DIR$/infrastructure" />
             <option value="$PROJECT_DIR$/mapper" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/navigation/navigation-engine" />
             <option value="$PROJECT_DIR$/navigation/navigation-ui" />
+            <option value="$PROJECT_DIR$/services" />
           </set>
         </option>
       </GradleProjectSettings>

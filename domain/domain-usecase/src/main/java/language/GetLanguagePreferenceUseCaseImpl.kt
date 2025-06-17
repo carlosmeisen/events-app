@@ -2,11 +2,11 @@ package language
 
 import kotlinx.coroutines.flow.Flow
 import model.LanguagePreference
-import preference.UserPreferenceRepository
+import preference.UserPreferencesRepository
 
 class GetLanguagePreferenceUseCaseImpl(
-    private val userPreferenceRepository: UserPreferenceRepository
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : GetLanguagePreferenceUseCase {
     override operator fun invoke(): Flow<LanguagePreference> =
-        userPreferenceRepository.getLanguagePreference()
+        userPreferencesRepository.getLanguagePreference()
 }

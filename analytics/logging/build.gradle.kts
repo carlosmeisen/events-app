@@ -22,7 +22,7 @@ android {
 
 dependencies {
     implementation(project(path = ":domain:domain-logger"))
-    implementation(project(path = ":domain:domain-model"))
+    implementation(project(":domain:domain-models"))
     implementation(project(path = ":core:core-navigation"))
     implementation(project(path = ":core:core-logging"))
 

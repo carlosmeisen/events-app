@@ -5,12 +5,13 @@ import com.example.di.infrastructureModule
 import com.example.festiveapp.di.appDataStoreModule
 import com.example.festiveapp.di.appModule
 import di.dataModule
-import com.example.feature_login.di.featureLoginModule
-import di.domainUseCaseModule // Updated import
+import di.domainUseCaseModule
 import di.featureHomeModule
+import di.featureLoginModule
 import di.featureSettingsModule
 import di.loggingModule
 import di.navigationModule
+import di.servicesModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -51,6 +52,7 @@ class MyApp : Application() {
                     featureSettingsModule,
                     featureHomeModule,
                     featureLoginModule,
+                    servicesModule,
                     // Add other Koin modules from your other feature/domain modules here as your app grows
                 )
             }

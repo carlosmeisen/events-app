@@ -21,6 +21,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:domain-model"))
+    implementation(project(":domain:domain-models"))
     implementation(libs.kotlinx.coroutines.core)
 }

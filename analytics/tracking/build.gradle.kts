@@ -32,7 +32,7 @@ android {
 
 dependencies {
     implementation(project(path = ":domain:domain-analytics"))
-    implementation(project(path = ":domain:domain-model"))
+    implementation(project(":domain:domain-models"))
 
     // Koin for dependency injection
     implementation(libs.koin.android)

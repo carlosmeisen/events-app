@@ -22,7 +22,7 @@ android {
 
 dependencies {
     implementation(project(":domain:domain-repository"))
-    implementation(project(":domain:domain-model"))
+    implementation(project(":domain:domain-models"))
     implementation(libs.kotlinx.coroutines.core)
 
     // Koin

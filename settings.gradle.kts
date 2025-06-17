@@ -30,17 +30,17 @@ include(":data:data-repository")
 
 // Domain Modules
 include(":domain")
-include(":domain:domain-model")
+include(":domain:domain-models")
 include(":domain:domain-repository")
 include(":domain:domain-usecase")
 
 // Feature Modules
-include(":feature")
-include(":feature:feature-home")
-include(":feature:feature-calendar")
-include(":feature:feature-settings")
-include(":feature:feature-login")
-include(":feature:feature-favorites")
+include(":features")
+include(":features:feature-home")
+include(":features:feature-calendar")
+include(":features:feature-settings")
+include(":features:feature-login")
+include(":features:feature-favorites")
 
 //Navigation Modules
 include(":navigation")
@@ -58,3 +58,5 @@ include(":analytics:logging")
 include(":domain:domain-analytics")
 include(":domain:domain-logger")
 include(":core:core-logging")
+include(":domain:domain-services")
+include(":services")

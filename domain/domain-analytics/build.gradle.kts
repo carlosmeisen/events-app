@@ -21,8 +21,8 @@ android {
 }
 
 dependencies {
-    implementation(project(path = ":domain:domain-model"))
-    
+
+    implementation(project(":domain:domain-models"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.android.material)

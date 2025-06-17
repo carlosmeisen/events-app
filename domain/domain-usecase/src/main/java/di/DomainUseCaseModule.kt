@@ -1,5 +1,7 @@
 package di
 
+import appinitialization.InitializeAppUseCase
+import appinitialization.InitializeAppUseCaseImpl
 import language.ApplyAppLanguageUseCase
 import language.ApplyAppLanguageUseCaseImpl
 import language.GetAvailableLanguagesUseCase
@@ -26,12 +28,12 @@ val domainUseCaseModule = module {
     factory<LogoutUserUseCase> { LogoutUserUseCaseImpl(userRepository = get()) }
     factory<GetLanguagePreferenceUseCase> {
         GetLanguagePreferenceUseCaseImpl(
-            userPreferenceRepository = get()
+            userPreferencesRepository = get()
         )
     }
     factory<SaveLanguagePreferenceUseCase> {
         SaveLanguagePreferenceUseCaseImpl(
-            userPreferenceRepository = get()
+            userPreferencesRepository = get()
         )
     }
     factory<GetAvailableLanguagesUseCase> {
@@ -42,5 +44,11 @@ val domainUseCaseModule = module {
 
     factory<ApplyAppLanguageUseCase> {
         ApplyAppLanguageUseCaseImpl(applicationContext = androidApplication())
+    }
+
+    factory<InitializeAppUseCase> {
+        InitializeAppUseCaseImpl(
+            userPreferencesRepository = get()
+        )
     }
 }

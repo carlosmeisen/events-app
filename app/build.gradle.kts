@@ -110,21 +110,23 @@ dependencies {
     implementation(project(":core:core-common"))
     implementation(project(":domain:domain-usecase"))
     implementation(project(":domain:domain-repository"))
-    implementation(project(":domain:domain-model"))
+    implementation(project(":domain:domain-services"))
+    implementation(project(":domain:domain-models"))
     implementation(project(":data:data-repository"))
     implementation(project(":navigation:navigation-engine"))
     implementation(project(":navigation:navigation-ui"))
     implementation(project(":infrastructure"))
     implementation(project(":mapper"))
     implementation(project(":analytics:logging"))
+    implementation(project(":services"))
 
 
     // Feature modules
-    implementation(project(":feature:feature-home"))
-    implementation(project(":feature:feature-settings"))
-    implementation(project(":feature:feature-calendar"))
-    implementation(project(":feature:feature-favorites"))
-    implementation(project(":feature:feature-login"))
+    implementation(project(":features:feature-home"))
+    implementation(project(":features:feature-settings"))
+    implementation(project(":features:feature-calendar"))
+    implementation(project(":features:feature-favorites"))
+    implementation(project(":features:feature-login"))
 
     // Koin
     implementation(libs.koin.android)

@@ -34,9 +34,9 @@ dependencies {
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
+    implementation(project(":domain:domain-models"))
 
     // Dependencies on domain-model
-    implementation(project(":domain:domain-model"))
 
     // Testing (for mocking API responses)
     testImplementation(project(":core:core-testing"))

@@ -12,6 +12,6 @@ import org.koin.dsl.module
  */
 val appDataStoreModule = module {
     single<DataStore<Preferences>> {
-        androidContext().appThemeDataStore // Use androidContext() to get the Context
+        androidContext().appThemeDataStore
     }
 }

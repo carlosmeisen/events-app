@@ -24,7 +24,7 @@ dependencies {
     // Dependency on the domain module for the repository interface
     implementation(project(path = ":domain:domain-repository"))
     implementation(project(path = ":core:core-common"))
-    implementation(project(path = ":domain:domain-model"))
+    implementation(project(":domain:domain-models"))
 
     // Dependency on the data-local module for the data store implementation
     implementation(project(path = ":data:data-local")) // Assuming ThemeDataStore is in data-local

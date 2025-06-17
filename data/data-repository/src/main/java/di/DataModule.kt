@@ -10,12 +10,12 @@ import org.koin.dsl.module
 
 // Domain Repository Interfaces
 import preference.ThemePreferenceRepository
-import preference.UserPreferenceRepository
+import preference.UserPreferencesRepository
 import user.UserRepository
 
 // Implementation Classes from this Data Layer
 import theme.ThemePreferenceRepositoryImpl
-import preference.UserPreferenceRepositoryImpl
+import preference.UserPreferencesRepositoryImpl
 import user.UserRepositoryImpl
 
 
@@ -30,8 +30,8 @@ val dataModule = module {
         ThemePreferenceRepositoryImpl(dataStore = get())
     }
 
-    single<UserPreferenceRepository> {
-        UserPreferenceRepositoryImpl(dataStore = get())
+    single<UserPreferencesRepository> {
+        UserPreferencesRepositoryImpl(dataStore = get())
     }
 
     single<UserRepository> {
