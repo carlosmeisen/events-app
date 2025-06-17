@@ -2,8 +2,7 @@ package com.example.festiveapp.di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.example.festiveapp.preferences.appThemeDataStore
-import org.koin.android.ext.koin.androidApplication
+import datastore.appThemeDataStore
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

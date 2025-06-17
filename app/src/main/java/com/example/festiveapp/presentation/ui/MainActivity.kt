@@ -32,7 +32,7 @@ import orchestrator.NavigationOrchestrator
 import org.koin.android.ext.android.getKoin
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.ext.android.inject
-import com.example.festiveapp.preferences.getSelectedLanguage
+import datastore.getSelectedLanguage
 import kotlinx.coroutines.runBlocking
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.androidx.compose.koinViewModel
@@ -73,9 +73,9 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
         super.onCreate(savedInstanceState)
 
         // Retrieve and apply saved language code before setContent
-        val savedLanguageCode = runBlocking { getSelectedLanguage(this@MainActivity.getApplicationContext()) }
+        val savedLanguageCode = runBlocking { getSelectedLanguage(this@MainActivity.applicationContext) }
         if (!savedLanguageCode.isNullOrEmpty()) {
-            updateLocale(savedLanguageCode, this@MainActivity.getApplicationContext())
+            updateLocale(savedLanguageCode, this@MainActivity.applicationContext)
         }
 
         // Initial locale setup could be considered here if a synchronous way to get

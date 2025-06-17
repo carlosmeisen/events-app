@@ -2,7 +2,7 @@ package di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import datastore.provideThemeDataStore
+import datastore.appThemeDataStore
 import language.LanguageConfigRepository
 import language.LanguageConfigRepositoryImpl
 import org.koin.android.ext.koin.androidContext
@@ -23,7 +23,7 @@ val dataModule = module {
 
     // Provide the DataStore<Preferences> instance
     single<DataStore<Preferences>> {
-        androidContext().provideThemeDataStore
+        androidContext().appThemeDataStore
     }
 
     single<ThemePreferenceRepository> {

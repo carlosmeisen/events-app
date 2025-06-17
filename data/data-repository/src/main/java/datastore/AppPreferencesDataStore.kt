@@ -1,4 +1,4 @@
-package com.example.festiveapp.preferences
+package datastore
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
